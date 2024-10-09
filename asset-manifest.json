@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/subastas/static/css/main.777ed098.css",
+    "main.js": "/subastas/static/js/main.9bd2b8e9.js",
+    "static/js/453.840d9e71.chunk.js": "/subastas/static/js/453.840d9e71.chunk.js",
+    "static/media/ibiza.jpg": "/subastas/static/media/ibiza.9995b28e22b13f3ed4f1.jpg",
+    "static/media/disco_nautica.jpg": "/subastas/static/media/disco_nautica.d53cf67e380547d46174.jpg",
+    "index.html": "/subastas/index.html",
+    "main.777ed098.css.map": "/subastas/static/css/main.777ed098.css.map",
+    "main.9bd2b8e9.js.map": "/subastas/static/js/main.9bd2b8e9.js.map",
+    "453.840d9e71.chunk.js.map": "/subastas/static/js/453.840d9e71.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.777ed098.css",
+    "static/js/main.9bd2b8e9.js"
+  ]
+}
