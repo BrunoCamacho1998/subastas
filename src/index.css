@@ -1,0 +1,208 @@
+html {
+  width: 100dvw;
+  height: 100dvh;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #2C2C2C;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  background-image: url('./assets/images/ibiza.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+header {
+  background-color: #212529;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.app-container {
+  flex: 1 1
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.discoteca,
+.subasta {
+  width: 48%;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.discoteca img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.subasta h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+.mesa {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.mesa button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.auction-screen {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  background-color: #A9A9A9; /* Color plomo (gris) */
+}
+
+
+.offer-buttons {
+  margin-top: 20px;
+}
+
+.offer-buttons button {
+  padding: 15px 30px;
+  font-size: 18px;
+  margin: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.offer-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.current-bid {
+  font-size: 1.5em;
+  margin-top: 20px;
+  color: #1e00ff;
+}
+
+#biddersList {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.back-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  text-align: center;
+}
+
+.modal-content h2 {
+  color: #333;
+}
+
+.modal-content button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #218838;
+}
+
+.countdown {
+  font-size: 1.2em;
+  margin-top: 20px;
+  color: red;
+}
+
+.whatsapp-modal {
+  display: none;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+footer {
+  background-color: #212529;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  /* position: fixed; */
+  bottom: 0;
+  width: 100%;
+}
