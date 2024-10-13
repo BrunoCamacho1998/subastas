@@ -1,0 +1,5 @@
+{
+    "doxdocgen.generic.useGitUserEmail": true,
+    "doxdocgen.generic.useGitUserName": true,
+    "explorer.excludeGitIgnore": true
+}

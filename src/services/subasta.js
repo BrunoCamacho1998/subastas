@@ -1,8 +1,7 @@
 const BASE_URL = 'http://localhost:3001';
 
 export const finalizar = async (subastaID) => {
-    const url = `${BASE_URL}/finalizarSubasta`;
-    const data = { subastaID };
+    const url = `${BASE_URL}/finalizarSubasta/${subastaID}`;
   
     try {
       const response = await fetch(url, {
@@ -10,7 +9,6 @@ export const finalizar = async (subastaID) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
       });
   
       if (!response.ok) {
