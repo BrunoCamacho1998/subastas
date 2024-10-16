@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/api/subasta';
+const BASE_URL = 'https://subastas-backend.vercel.app/api/subasta';
 
 export const finalizar = async (subastaID) => {
     const url = `${BASE_URL}/finalizarSubasta/${subastaID}`;
