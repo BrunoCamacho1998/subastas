@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
 
+import beer from '../assets/images/beer.jpg';
+import beer1 from '../assets/images/beer1.jpg';
+
 const SubastaDetail = () => {
     
     const navigate = useNavigate()
@@ -112,7 +115,7 @@ const SubastaDetail = () => {
 
         const diferenciaSegundos = Math.floor(diferenciaMilisegundos / 1000);
 
-        return 20 - diferenciaSegundos;
+        return 300 - diferenciaSegundos;
     }
 
     const offerTokens = async (tokens) => {
@@ -235,7 +238,10 @@ const SubastaDetail = () => {
                 <h1>Subasta de Mesas VIP - Discoteca NAUTICA</h1>
             </header>
             <div className="app-container">
-                <div className="container">
+                <div className="publi-left">
+                    <img src={beer} alt="beer" />
+                </div>
+                <div className="container" style={{ width:'850px' }}>
                     <div className="auction-screen" id="auctionScreen" style={{ display: 'block' }}>
                     <h1>Subasta Activa - Discoteca NAUTICA</h1>
                     <div className="auction-info">
@@ -270,6 +276,9 @@ const SubastaDetail = () => {
                         <button className="back-button" onClick={regresar}>Regresar a ver más subastas</button>
                     </div>
                 </div>
+                </div>
+                <div className="publi-right">
+                    <img src={beer1} alt="beer1" />
                 </div>
             </div>
             
