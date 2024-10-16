@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import QRCode from "react-qr-code";
+import QRCode from "react-qr-code";
 import { useNavigate, useParams } from "react-router-dom";
 import { finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
 
@@ -52,12 +52,19 @@ const SubastaDetail = () => {
                     if (result.status) {
                         alert(`¡La subasta ha terminado! El ganador es ${auction.highestBidder} con una oferta de ${auction.currentBid} CumbiaCoin (GAAAAAA) tokens.`);
                     }
-                    
+
+                    if (user.fullname === auction.highestBidder) {
+                        setWinnerName(user.fullname)
+                        setWinnerAmount(auction.currentBid)
+                        setShowModal(true)
+                    }
+                    else setShowWhatsappModal(true)
+
                     setBidderNamesList([])
                     showWinnerModal(auction.highestBidder, auction.currentBid);
-                    setTimeout(() => {
-                        regresar()
-                    }, 1000);
+                    // setTimeout(() => {
+                    //     regresar()
+                    // }, 1000);
                 })
         }
     }, [loading])
@@ -115,7 +122,7 @@ const SubastaDetail = () => {
 
         const diferenciaSegundos = Math.floor(diferenciaMilisegundos / 1000);
 
-        return 300 - diferenciaSegundos;
+        return 10 - diferenciaSegundos;
     }
 
     const offerTokens = async (tokens) => {
@@ -214,8 +221,7 @@ const SubastaDetail = () => {
     }
 
     const closeWhatsAppModal = () => {
-        setShowWhatsappModal(false)
-        window.location.reload();
+        regresar()
     }
 
     const obtenerMayor = (bidders) => {
@@ -296,9 +302,9 @@ const SubastaDetail = () => {
                         <p>{winnerName}</p>
                         <p>{winnerAmount}</p>
                         <p>Dirección para la transferencia: <strong>HUNrdWSzeBSNYiu4Js4dhn5cMpXKNQgTzoRFDCQ8PPpG</strong></p>
-                        {/* <QRCode value={destinationWallet}></QRCode> */}
+                        <QRCode value={destinationWallet}></QRCode>
                         <div className="countdown">Tiempo restante para transferir: <span id="countdownTimer">{countdownElement}</span></div>
-                        <button onClick={closeModal}>Cerrar</button>
+                        <button onClick={closeModal} style={{ marginTop: '8px'}}>Cerrar</button>
                     </div>
                 </div>
             }            
