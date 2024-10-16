@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 
 const children  = (
   <React.StrictMode>
-    <Router>
+    <Router basename='/subastas'>
       <React.StrictMode>
         <App />
       </React.StrictMode>

@@ -1,12 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import DiscoNautica from "../assets/images/disco_nautica.jpg";
+import { crearSubasta } from "../services/subasta";
 
 const Subastas = () => {
 
     const navigate = useNavigate()
 
     const subastar = async (espacio, ofertaMinima) => {
-        navigate("/subastas/subasta/" + espacio + "/" + ofertaMinima)
+        await crearSubasta(espacio)
+            .then((result) => {
+                if (result.status) {
+                    sessionStorage.setItem('suba_current', JSON.stringify(result.data))
+                    navigate("/subasta/" + result.data.id + "/" + ofertaMinima)
+                }
+            })
     }
 
     return (

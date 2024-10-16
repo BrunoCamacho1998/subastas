@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { useNavigate, useParams } from "react-router-dom";
-import { crearSubasta, finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
+import { finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
 
 const SubastaDetail = () => {
     
     const navigate = useNavigate()
-    const { subastaID, ofertaMinima } = useParams()
+    const { ofertaMinima } = useParams()
     const destinationWallet = "HUNrdWSzeBSNYiu4Js4dhn5cMpXKNQgTzoRFDCQ8PPpG";
 
     let timeInterval;
@@ -14,7 +14,6 @@ const SubastaDetail = () => {
     const [minBid, setMinBid] = useState('')
     const [bidderNamesList, setBidderNamesList] = useState([])
 
-    const [auctionScreen, setAuctionScreen] = useState('none')
     const [timerElement, setTimerElement] = useState('10:00');
     const [currentBidValueElement, setCurrentBidValueElement] = useState('0')
 
@@ -27,7 +26,10 @@ const SubastaDetail = () => {
 
     const [showWhatsappModal, setShowWhatsappModal] = useState(false)
 
-    const fullname = sessionStorage.getItem("fullname")
+    const [loading, setLoading] = useState(false)
+
+    const user = JSON.parse(sessionStorage.getItem("user"))
+    const subasta = JSON.parse(sessionStorage.getItem("suba_current"))
 
     useEffect(() => {
         getData()
@@ -40,30 +42,53 @@ const SubastaDetail = () => {
         }
     }, [auction])
 
+    useEffect(() => {
+        if (loading) {
+            finalizar(subasta.id)
+                .then(result => {
+                    if (result.status) {
+                        alert(`¡La subasta ha terminado! El ganador es ${auction.highestBidder} con una oferta de ${auction.currentBid} CumbiaCoin (GAAAAAA) tokens.`);
+                    }
+                    
+                    setBidderNamesList([])
+                    showWinnerModal(auction.highestBidder, auction.currentBid);
+                    setTimeout(() => {
+                        regresar()
+                    }, 1000);
+                })
+        }
+    }, [loading])
+
     const getData = async () => {
-        const subastaDatos = await crearSubasta(subastaID);
-        const bidderList = await obtenerSubastas(subastaID)
-        const time = obtenerMinutosRestantes(subastaDatos.inicio)
+        if (subasta !== null) {
+            await obtenerSubastas(subasta.id)
+            .then(result => {
+                if (result.status) {                
+                    const bidderList = result.data
+                    const time = obtenerMinutosRestantes(subasta.Date)
 
-        const _bidderArray = {}
+                    const _bidderArray = {}
 
-        for(let bidder of bidderList) {
-            _bidderArray[bidder.nombre] = (_bidderArray[bidder.nombre] ?? 0) + bidder.cantidad
+                    for(let bidder of bidderList) {
+                        _bidderArray[bidder.Nombre] = (_bidderArray[bidder.Nombre] ?? 0) + bidder.Cantidad
+                    }
+
+                    const { nombre, cantidad } = obtenerMayor(_bidderArray)
+
+                    const _auction = {
+                        currentBid: cantidad === 0 ? ofertaMinima : cantidad,
+                        highestBidder: nombre === '' ? null : nombre,
+                        bidders: _bidderArray,
+                        remainingTime: time
+                    }
+                    setAuction(_auction)
+
+                    setMinBid(ofertaMinima);
+
+                    setCurrentBidValueElement(_auction.currentBid);
+                }
+            })
         }
-
-        const { nombre, cantidad } = obtenerMayor(_bidderArray)
-
-        const _auction = {
-            currentBid: cantidad === 0 ? ofertaMinima : cantidad,
-            highestBidder: nombre === '' ? null : nombre,
-            bidders: _bidderArray,
-            remainingTime: time
-        }
-        setAuction(_auction)
-
-        setMinBid(ofertaMinima);
-
-        setCurrentBidValueElement(_auction.currentBid);
     }
 
     
@@ -87,38 +112,37 @@ const SubastaDetail = () => {
 
         const diferenciaSegundos = Math.floor(diferenciaMilisegundos / 1000);
 
-        return 600 - diferenciaSegundos;
+        return 20 - diferenciaSegundos;
     }
 
     const offerTokens = async (tokens) => {
         const _auction = auction
+        const { fullname } = user
         if (_auction && fullname) {
-            // const newBid = parseInt(_auction.currentBid) + tokens;
-            if (!_auction.bidders[fullname]) {
-                _auction.bidders[fullname] = 0;
-            }
-            _auction.bidders[fullname] += tokens;
-            
-            const { nombre, cantidad } = obtenerMayor(_auction.bidders)
-            _auction.currentBid = cantidad;
-            _auction.highestBidder = nombre;
+            await guardarSubasta(subasta.id, fullname, tokens, user.phantomID)
+            .then (result => {
+                if (result.status) {
+                    if (!_auction.bidders[fullname]) {
+                        _auction.bidders[fullname] = 0;
+                    }
+                    _auction.bidders[fullname] += tokens;
+                    
+                    const { nombre, cantidad } = obtenerMayor(_auction.bidders)
+                    _auction.currentBid = cantidad;
+                    _auction.highestBidder = nombre;
 
-            setCurrentBidValueElement(cantidad);
-            setAuction(_auction)
-            await agregarSubasta(subastaID, fullname, tokens);
+                    setCurrentBidValueElement(cantidad);
+                    setAuction(_auction)
 
-            updateBiddersList(_auction);
+                    updateBiddersList(_auction);
+                    alert(`Has ofertado ${tokens} CumbiaCoin (GAAAAAA) tokens. La oferta actual es ${_auction.currentBid} tokens.`);
+                }
+            });
 
-            alert(`Has ofertado ${tokens} CumbiaCoin (GAAAAAA) tokens. La oferta actual es ${_auction.currentBid} tokens.`);
+           
         } else {
             alert("La subasta no está activa o no has iniciado sesión.");
         }
-    }
-
-    
-
-    const agregarSubasta = async (subastaID, nombre, cantidad) => {
-        await guardarSubasta(subastaID, nombre, cantidad)
     }
 
     const startAuctionTimer = async () => {
@@ -126,7 +150,7 @@ const SubastaDetail = () => {
         if (!auction) return;
 
         timeInterval = setInterval(async () => {
-            if (auction.remainingTime > 0) {
+            if (auction.remainingTime > 0 && !loading) {
                 auction.remainingTime--;
 
                 // Calcula los minutos y segundos restantes
@@ -138,13 +162,8 @@ const SubastaDetail = () => {
 
                 setTimerElement(`${minutes}:${formattedSeconds}`);
             } else {
-                await finalizar(subastaID);
-                
-                clearInterval(timeInterval);
-                alert(`¡La subasta ha terminado! El ganador es ${auction.highestBidder} con una oferta de ${auction.currentBid} CumbiaCoin (GAAAAAA) tokens.`);
-                setBidderNamesList([])
-                showWinnerModal(auction.highestBidder, auction.currentBid);
-                
+                clearInterval(timeInterval)
+                setLoading(true)
             }
         }, 1000);
     }
@@ -152,9 +171,10 @@ const SubastaDetail = () => {
     
 
     const regresar = () => {
-        setAuctionScreen("none");
         setBidderNamesList([])
-        navigate("/subastas/subastas")
+        sessionStorage.removeItem("suba_current")
+        setLoading(false)
+        navigate("/subastas")
     }
     
 
@@ -219,7 +239,7 @@ const SubastaDetail = () => {
                     <div className="auction-screen" id="auctionScreen" style={{ display: 'block' }}>
                     <h1>Subasta Activa - Discoteca NAUTICA</h1>
                     <div className="auction-info">
-                        <h2>Espacio en Subasta: <span>{subastaID}</span></h2>
+                        <h2>Espacio en Subasta: <span>{subasta.SubastaID}</span></h2>
                         <h3>Oferta Mínima: <span>{minBid}</span> CumbiaCoin (GAAAAAA) Tokens</h3>
                         <div id="timer">Tiempo restante: <span id="timeLeft">{timerElement}</span></div>
                         {

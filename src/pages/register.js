@@ -49,8 +49,8 @@ const Register = () => {
     const registerAucioneer = () => {
         if (fullname && phantomWallet) {
             alert(`Usuario registrado: ${fullname}`);
-            sessionStorage.setItem("fullname", fullname)
-            navigate("/subastas/subastas")
+            sessionStorage.setItem("user", JSON.stringify({ fullname, phantomID: phantomWallet }))
+            navigate("/subastas")
         } else {
             alert("Por favor, ingresa tus nombres y apellidos y conecta tu wallet.");
         }

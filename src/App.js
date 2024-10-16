@@ -8,10 +8,10 @@ import Subastas from './pages/subastas';
 function App() {
     return (
         <Routes>
-            <Route path="/subastas" element={<Navigate to="/subastas/home" replace />} ></Route>
-            <Route path="/subastas/home" element={<Register />}></Route>
-            <Route path="/subastas/subasta/:subastaID/:ofertaMinima" element={<SubastaDetail />}></Route>
-            <Route path="/subastas/subastas" element={<Subastas />}></Route>
+            <Route path="/" element={<Navigate to="/home" replace />} ></Route>
+            <Route path="/home" element={<Register />}></Route>
+            <Route path="/subasta/:subastaID/:ofertaMinima" element={<SubastaDetail />}></Route>
+            <Route path="/subastas" element={<Subastas />}></Route>
         </Routes>
     )
 }
