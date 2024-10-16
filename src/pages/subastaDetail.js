@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { useNavigate, useParams } from "react-router-dom";
 import { finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
 
@@ -287,7 +287,7 @@ const SubastaDetail = () => {
                         <p>{winnerName}</p>
                         <p>{winnerAmount}</p>
                         <p>Dirección para la transferencia: <strong>HUNrdWSzeBSNYiu4Js4dhn5cMpXKNQgTzoRFDCQ8PPpG</strong></p>
-                        <QRCode value={destinationWallet}></QRCode>
+                        {/* <QRCode value={destinationWallet}></QRCode> */}
                         <div className="countdown">Tiempo restante para transferir: <span id="countdownTimer">{countdownElement}</span></div>
                         <button onClick={closeModal}>Cerrar</button>
                     </div>
