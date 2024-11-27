@@ -3,8 +3,6 @@ import QRCode from "react-qr-code";
 import { useNavigate, useParams } from "react-router-dom";
 import { finalizar, guardarSubasta, obtenerSubastas } from "../services/subasta";
 
-import beer from '../assets/images/beer.jpg';
-import beer1 from '../assets/images/beer1.jpg';
 
 const SubastaDetail = () => {
     
@@ -245,7 +243,7 @@ const SubastaDetail = () => {
             </header>
             <div className="app-container">
                 <div className="publi-left">
-                    <img src={beer} alt="beer" />
+                    {/* <img src={beer} alt="beer" /> */}
                 </div>
                 <div className="container" style={{ width:'850px' }}>
                     <div className="auction-screen" id="auctionScreen" style={{ display: 'block' }}>
@@ -284,7 +282,7 @@ const SubastaDetail = () => {
                 </div>
                 </div>
                 <div className="publi-right">
-                    <img src={beer1} alt="beer1" />
+                    {/* <img src={beer1} alt="beer1" /> */}
                 </div>
             </div>
             
