@@ -120,7 +120,7 @@ const SubastaDetail = () => {
 
         const diferenciaSegundos = Math.floor(diferenciaMilisegundos / 1000);
 
-        return 150 - diferenciaSegundos;
+        return 120 - diferenciaSegundos;
     }
 
     const offerTokens = async (tokens) => {
