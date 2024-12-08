@@ -120,7 +120,7 @@ const SubastaDetail = () => {
 
         const diferenciaSegundos = Math.floor(diferenciaMilisegundos / 1000);
 
-        return 300 - diferenciaSegundos;
+        return 150 - diferenciaSegundos;
     }
 
     const offerTokens = async (tokens) => {
@@ -256,6 +256,10 @@ const SubastaDetail = () => {
                             bidderNamesList.length > 0 && 
                             <div className="current-bid">Oferta más alta: <span>{currentBidValueElement}</span> CumbiaCoin (GAAAAAA) Tokens</div>
                         }
+
+                        <div className="offer-buttons">
+                            <button onClick={() => getData()}>Recargar</button>
+                        </div>
 
                         <div className="offer-buttons">
                             <button onClick={() => offerTokens(1)}>Ofertar 1 Token</button>
